@@ -1,0 +1,46 @@
+/* pages/setting/setting.wxss */
+.setting-block {
+  width: 750rpx;
+  border-radius: 0;
+  margin: 0;
+  padding: 36rpx 40rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  line-height: 1;
+}
+.setting-block-hover {
+  background-color: #eee;
+}
+
+.setting-block text {
+  font-size: 16px;
+}
+
+.setting-block > .right {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.setting-block > .right > image {
+  height: 20rpx;
+  width: 12rpx;
+}
+
+.setting-block > .right > .sub {
+  margin-right: 32rpx;
+  font-size: 14px;
+  color: #888;
+}
+
+.setting-block > .user-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.setting-block > .user-info > text {
+  margin-left: 30rpx;
+}

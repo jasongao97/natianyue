@@ -1,0 +1,50 @@
+/* components/btn/btn.wxss */
+.button {
+  width: 100%;
+  font-size: 18px;
+  font-weight: bold;
+  transform: translateY(-4rpx);
+  transition: box-shadow .1s linear, transform .1s linear, background-color .1s linear;
+  box-shadow: 0 6rpx 0 rgba(53, 53, 53, 0.2);
+}
+
+.hover {
+  box-shadow: 0 0 0 rgba(53, 53, 53, 0.2);
+  transform: translateY(0);
+}
+
+/* 按钮大小 */
+.big {
+  width: 686rpx;
+}
+
+.small {
+  font-size: 16px;
+}
+
+/* 一级按钮 */
+.primary {
+  color: white;
+  background-color: #3ABB6A;
+}
+.primary-hover {
+  background-color: #30A15A;
+}
+
+/* 二级按钮 */
+.secondary {
+  color: #888;
+  border: .5px #CCC solid;
+  background-color: #F8F8F8;
+}
+.secondary-hover {
+  background-color: #E3E3E3;
+}
+
+/* 不可用按钮 */
+.disable {
+  background-color: #C9C9C9;
+  color: #FFF;
+  box-shadow: none;
+  transform: translateY(0);
+}

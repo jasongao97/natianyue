@@ -1,0 +1,7 @@
+<!--components/section/section.wxml-->
+<view class="section {{margin ? 'margin-section' : ''}}">
+	<text wx:if="{{title}}" class="title">{{title}}</text>
+	<view class="content {{bg ? 'content-bg' : ''}} {{bg && !margin && !title ? 'content-higher' : ''}}">
+		<slot />
+	</view>
+</view>

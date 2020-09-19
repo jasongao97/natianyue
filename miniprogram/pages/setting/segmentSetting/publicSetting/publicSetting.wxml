@@ -1,0 +1,20 @@
+<!--pages/setting/segmentSetting/publicSetting/publicSetting.wxml-->
+<wxs module="tools" src="../../../../util/tools.wxs"></wxs>
+
+<navigation-bar title="公共模板库" action="back" loading="{{loading}}"></navigation-bar>
+
+<container>
+  <section wx:for="{{publicSettings}}" wx:key="index" margin="{{index === 0}}">
+    <view class="segment-settings-block">
+      <view class="segment-setting">
+        <view class="segment-setting-content">
+          <text class="name">{{item.name}}</text>
+          <text
+            class="description">{{item.segments.length > 2 ? item.segments[0] + '、' + item.segments[1] + ' 共' + item.segments.length + '个选项' : tools.joinArray(item.segments, '、')}}</text>
+        </view>
+        <btn wx:if="{{!item.saved}}" size="small" data-index="{{index}}" bind:tap="saveSetting">添加</btn>
+        <text wx:else class="state">已添加</text>
+      </view>
+    </view>
+  </section>
+</container>

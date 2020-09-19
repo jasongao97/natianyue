@@ -1,0 +1,33 @@
+/* pages/editPlan/editPlan.wxss */
+.warn {
+  color: #e64340 !important;
+}
+
+.title-block {
+  padding: 32rpx 40rpx;
+}
+.input-placeholder {
+  font-size: 17px;
+  color: #aaa;
+}
+
+.textarea-block {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.textarea-block > textarea {
+  width: 100%;
+  min-height: 160rpx;
+}
+.textarea-block > .clipboard {
+  font-size: 11px;
+  font-weight: bold;
+  color: #aaa;
+  margin: 32rpx 40rpx 0 0;
+  padding: 8rpx;
+  border-radius: 4rpx;
+  border: 1px #aaa solid;
+  white-space: nowrap;
+}

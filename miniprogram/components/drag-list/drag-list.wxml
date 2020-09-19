@@ -1,0 +1,12 @@
+<!--components/drag-list/drag-list.wxml-->
+<view class="item {{currentIndex === index ? 'dragging' : ''}} {{animation ? 'animation' : ''}} {{warning && !item.name ? 'warn-item' : ''}}" wx:for="{{items}}" wx:key="index" style="transform: translateY({{currentIndex === index ? tranY + item.tran : item.tran}}px); opacity: {{item.hide ? 0 : 1}};">
+	<image class="delete-button {{items.length <= 1 ? 'delete-button-diable' : ''}}" src="../../icons/delete.png" id="{{index}}" bind:tap="handleDelete"></image>
+	<input class="input" value="{{item.name}}" id="{{index}}" bind:input="handleEdit" bind:confirm="handleEditDone" placeholder-class="{{warning && !item.name ? 'warn' : ''}}" placeholder="请输入选项 {{item.position + 1}}" focus="{{focusedIndex === index}}"></input>
+	<image class="arrange-button" src="../../icons/arrange.png" id="{{index}}" bind:touchstart="handleArrangeStart" catch:touchmove="handleArrange" catch:touchend="handleArrangeEnd"></image>
+</view>
+<view class="add-button {{animation ? 'animation' : ''}}" bind:tap="handleAdd" style="transform: translateY({{addButtonTran}}px)">
+	<view class="add-button-icon">
+		<image class="add-button-icon-image" src="../../icons/plus.png"></image>
+	</view>
+	<text>{{addButtonName}}</text>
+</view>

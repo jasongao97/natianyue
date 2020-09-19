@@ -1,0 +1,89 @@
+/* components/drag-list/drag-list.wxss */
+.item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #fff;
+  box-sizing: border-box;
+  z-index: 1;
+  border-bottom: 1px #f2f2f2 solid;
+}
+
+.animation {
+  transition: all .3s;
+}
+
+.dragging {
+  position: relative;
+  /* border-top: 1px #f2f2f2 solid; */
+  box-shadow: 0 0 20rpx rgba(0, 0, 0, 0.1);
+  z-index: 2;
+  transition: transform .08s;
+}
+
+.delete-button {
+  height: 15px;
+  width: 12px;
+  padding: 32rpx 28rpx 32rpx 36rpx;
+}
+
+.delete-button-diable {
+  opacity: 0.2;
+}
+
+.input {
+  flex-grow: 1;
+  font-size: 17px;
+  padding: 32rpx 0;
+}
+
+.arrange-button {
+  height: 12px;
+  width: 14px;
+  padding: 44rpx;
+}
+
+.add-button {
+  padding: 32rpx;
+  background-color: #fff;
+  border-bottom: 1px #f2f2f2 solid;
+  font-size: 17px;
+  color: #b2b2b2;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.add-button-icon {
+  margin-right: 28rpx;
+  width: 16px; height: 16px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #3ABB6A;
+}
+
+.add-button-icon-image {
+  width: 8px; height: 8px;
+}
+
+/* warnning */
+.warn-item {
+  animation: wiggle .6s;
+}
+
+@keyframes wiggle {
+  0% { transform: translateX(0); color: #e64340; }
+  16% { transform: translateX(-5px); }
+  33% { transform: translateX(5px); }
+  50% { transform: translateX(-5px); }
+  66% { transform: translateX(5px); }
+  83% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+.warn {
+  color: #e64340;
+}

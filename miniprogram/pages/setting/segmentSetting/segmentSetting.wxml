@@ -1,0 +1,49 @@
+<!--pages/setting/segmentSetting/segmentSetting.wxml-->
+<wxs module="tools" src="../../../util/tools.wxs"></wxs>
+
+<half-modal show="{{showSegmentEditor}}" bind:modalClose="handleSegmentEditorClose" title="时间选项模板" description="编辑时间选项" rightButtonName="{{tools.compareArray(segmentSettingEdit, segmentSettings[segmentSettingEditIndex]) ? '' : '完成'}}" rightButtonColor="{{segmentSettingEdit.name && segmentSettingEdit.segments[0] ? '#3ABB6A' : '#b2b2b2'}}" bind:rightButtonTap="handleSegmentEditorSave">
+	<scroll-view class="editor-scroll" scroll-y="true">
+		<section title="模板名称" margin="{{false}}">
+			<input value="{{segmentSettingEdit.name}}" bind:input="handleSegmentSettingNameInput" class="title-block" placeholder-class="input-placeholder" placeholder="请输入模板名称" />
+		</section>
+		<section title="时间选项" bg="{{false}}">
+			<drag-list wx:if="{{showSegmentEditorDragList}}" list="{{segmentSettingEdit.segments}}" bind:listChange="handleSegmentSettingChange" addButtonName="添加选项" />
+    </section>
+
+    <section wx:if="{{segmentSettings[segmentSettingEditIndex]}}">
+      <button class="modal-button-block delete" hover-class="modal-button-block-hover" bind:tap="handleSegmentSettingDelete">删除模板</button>
+    </section>
+	</scroll-view>
+</half-modal>
+
+<navigation-bar title="管理模板" action="back"/>
+
+<container>
+  <section title="公共模板库">
+    <view class="public-block" hover-class="public-block-hover" bind:tap="handleToPublicSetting">
+      <text>探索更多模板</text>
+      <image src="../../../icons/enter.png"></image>
+    </view>
+  </section>
+
+  <section title="我的模板">
+    <view>
+      <view class="segment-settings-block" wx:for="{{segmentSettings}}" wx:key="index">
+        <view class="segment-setting">
+          <view class="segment-setting-content">
+            <text class="name">{{item.name}}</text>
+            <text
+              class="description">{{item.segments.length > 2 ? item.segments[0] + '、' + item.segments[1] + ' 共' + item.segments.length + '个选项' : tools.joinArray(item.segments, '、')}}</text>
+          </view>
+          <image src="../../../icons/more.png" id="{{index}}" catch:tap="handleSegmentSettingEdit"></image>
+        </view>
+      </view>
+    </view>
+    <view class="segment-settings-add-button" bind:tap="handleSegmentSettingCreate" id="segment-block">
+      <view class="segment-settings-add-button-icon">
+        <image src="../../../icons/plus.png"></image>
+      </view>
+      <text>新建时间选项模板</text>
+    </view>
+  </section>
+</container>

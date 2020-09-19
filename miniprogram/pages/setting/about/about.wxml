@@ -1,0 +1,54 @@
+<!--pages/setting/about/about.wxml-->
+<navigation-bar title="关于" action="back" />
+
+<container>
+	<section margin="{{false}}">
+		<view class="introduction">
+			<image src="/icons/logo.png"></image>
+			<view class="content">
+				<text class="title">哪天约 {{version}}</text>
+				<text class="description">{{description}}</text>
+			</view>
+		</view>
+	</section>
+
+	<section title="Q&A">
+		<view class="section">
+			<view class="paragraph" wx:for="{{QA}}" wx:key="index">
+				<text>{{index + 1}}.{{item.question}}</text>
+				<text>{{item.answer}}</text>
+			</view>
+		</view>
+	</section>
+
+	<section title="更新日志">
+		<view class="section">
+			<view class="paragraph" wx:for="{{updates}}" wx:key="index">
+				<text>{{item.date}} V{{item.version}}</text>
+				<text>{{item.detail}}</text>
+			</view>
+		</view>
+	</section>
+
+	<section title="作者">
+		<view class="section">
+			<view class="paragraph">
+				<text>高亦非</text>
+				<text>设计 开发</text>
+			</view>
+			<view class="paragraph">
+				<text>王帅雨</text>
+				<text>产品 运营</text>
+			</view>
+		</view>
+	</section>
+
+	<section title="版权">
+		<view class="section">
+			<view class="paragraph" wx:for="{{credits}}" wx:key="index" data-index="{{index}}" bind:tap="handleGetUrl">
+				<text>{{item.title}}</text>
+				<text>{{item.description}}</text>
+			</view>
+		</view>
+	</section>
+</container>

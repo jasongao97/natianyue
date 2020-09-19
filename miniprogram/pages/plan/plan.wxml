@@ -1,0 +1,261 @@
+<!--pages/plan/plan.wxml-->
+<wxs module="tools" src="../../util/tools.wxs"></wxs>
+
+<!-- 导航栏 -->
+<navigation-bar title="{{notFound ? '群约不存在' : '群约详情'}}" action="back" loading="{{!loaded || reopening}}" />
+
+<!-- 结果时间选择 -->
+<half-modal show="{{showResultPicker}}" bind:modalClose="handleResultPickerClose" title="请选择确定的时间" description="将推送给订阅用户并暂停报名" rightButtonName="发送" rightButtonColor="{{resultActiveIndex === -1 ? '#b2b2b2' : '#3ABB6A'}}" bind:rightButtonTap="handleClosePlan" loading="{{submittingResult}}">
+	<scroll-view class="editor-scroll" scroll-y="true">
+		<section margin="{{false}}">
+			<view class="result-option-block" wx:for="{{resultList}}" wx:key="index" id="{{index}}" bind:tap="handleResultPickerSwitch">
+				<view class="radio">
+					<view class="radio-center {{index === resultActiveIndex ? 'active' : ''}}"></view>
+				</view>
+				<view class="description">
+					<text>{{item.name}}</text>
+					<text>{{item.supporters.length}}/{{participations.length}}人选择</text>
+				</view>
+			</view>
+		</section>
+	</scroll-view>
+</half-modal>
+
+<!-- 锁定选项 -->
+<half-modal show="{{showLockEditor}}" bind:modalClose="handleLockEditorClose" title="锁定选项编辑" description="请点击选择需要锁定的时间段" rightButtonName="确定" rightButtonColor="{{lockSettingHasChanged ? '#3ABB6A' : '#b2b2b2'}}" bind:rightButtonTap="handleUpdateLock" loading="{{submittingLock}}">
+	<scroll-view class="editor-scroll" scroll-y="true">
+		<view class="option-block segment" wx:if="{{option.mode === 'segment'}}">
+			<view class="side-column">
+				<text class="row-title" wx:for="{{option.segments}}" wx:key="index">{{item}}</text>
+			</view>
+			<view class="main" style="grid-template-columns: repeat({{option.range}}, minmax(0, 1fr));">
+				<view class="column-title"
+					wx:for="{{tools.datesBetween(option.startDate, tools.dateAdd(option.startDate, option.range - 1))}}"
+					wx:key="index">
+					<text class="title">{{tools.displayDate(item, 'dd日')}}</text>
+					<text class="subtitle">{{tools.displayDate(item, '周D')}}</text>
+				</view>
+				<view
+					class="cell {{index < option.range ? 'top' : ''}} {{index >= (option.segments.length - 1) * option.range ? 'bottom' : ''}} {{item.selectedLock ? 'selected-lock' : ''}}"
+					wx:for="{{resultGraph}}" wx:key="index" data-index="{{index}}" bind:tap="toggleLocked">
+					<image wx:if="{{item.selectedLock}}" src="/icons/lock-light.png"></image>
+				</view>
+			</view>
+		</view>
+
+		<view class="option-block day" wx:if="{{option.mode === 'day'}}">
+			<view class="title" wx:for="{{tools.dayNames()}}" wx:key="index">周{{item}}</view>
+			<view class="cell {{item.disable ? 'disable' : item.selectedLock ? 'selected-lock' : ''}}" wx:for="{{resultGraph}}" wx:key="index" data-index="{{index}}" bind:tap="toggleLocked">
+				<image wx:if="{{item.selectedLock}}" src="/icons/lock-light.png"></image>
+				<text class="title">{{item.name}}</text>
+			</view>
+		</view>
+
+		<view class="option-block list" wx:if="{{option.mode === 'list'}}">
+			<view class="cell {{item.selectedLock ? 'selected-lock' : ''}}" wx:for="{{resultGraph}}" wx:key="index" data-index="{{index}}" bind:tap="toggleLocked">
+				<image wx:if="{{item.selectedLock}}" src="/icons/lock-light.png"></image>
+				<text wx:else>{{item.name}}<text style="opacity: 0.7;"> （{{item.votes ? item.votes + ' ' : '无'}}人选择）</text></text>
+			</view>
+		</view>
+	</scroll-view>
+</half-modal>
+
+<!-- 头像及昵称详情Toast -->
+<view wx:if="{{hoverUser.show}}" class="voter-hover" style="{{hoverUser.position}}">
+  <view class="voter-hover-toast">
+    <avatar src="{{hoverUser.avatar}}" animation="{{false}}" avatar-style="height: 140rpx; width: 140rpx; border-radius: 8rpx;"></avatar>
+    <text>{{hoverUser.nickName}}</text>
+  </view>
+  <view class="voter-hover-toast-triangle"></view>
+</view>
+
+<!-- 加载占位 -->
+<container wx:if="{{!loaded}}">
+	<section margin="{{false}}">
+		<view class="info-block">
+			<view class="title-holder"></view>
+			<view class="info-holder animation-{{tools.randomAni(0)}}"></view>
+			<view class="info-holder animation-{{tools.randomAni(1)}}"></view>
+		</view>
+	</section>
+
+	<image class="plan-holder breathing" src="../../images/planholder.png"></image>
+</container>
+
+<!-- 不存在占位 -->
+<container class="fadein" wx:if="{{loaded && notFound}}">
+	<view class="notfound-modal">
+		<text>该群约不存在或已删除</text>
+		<btn size="medium" bind:tap="handleBackHome">回到首页</btn>
+	</view>
+	<view style="opacity: 0.3;">
+		<section margin="{{false}}">
+			<view class="info-block">
+				<view class="title-holder" style="transform: rotate(1deg);"></view>
+				<view class="info-holder" style="transform: rotate(-1deg);"></view>
+				<view class="info-holder"></view>
+			</view>
+		</section>
+
+		<image class="plan-holder" src="../../images/planholder.png"></image>
+	</view>
+</container>
+
+<!-- 正常显示 -->
+<container class="fadein" wx:if="{{loaded && !notFound}}">
+	<section margin="{{false}}">
+		<view class="top-block">
+			<view class="info-block {{!result ? 'hide-right-padding' : ''}}">
+				<view class="title-block">
+					<text class="title">{{title}}</text>
+					<view class="status {{result ? 'close' : 'open'}}">{{result ? '已确定' : '报名中'}}</view>
+				</view>
+				<text wx:if="{{!result}}">
+					<block wx:if="{{option.mode === 'segment' || option.mode === 'day'}}">{{tools.displayDate(option.startDate, 'yyyy年MM月dd日')}} ~ {{tools.displayDate(tools.dateAdd(option.startDate, option.range - 1), 'MM月dd日')}}</block>
+					<block wx:if="{{option.mode === 'segment' && option.segments.length < 3}}"> 的 {{tools.joinArray(option.segments, '、')}}</block>
+					<block wx:if="{{option.mode === 'segment' && option.segments.length >= 3}}"> 的 {{option.segments[0]}} 等{{option.segments.length}}个时段</block>
+					<block wx:if="{{option.mode === 'list'}}">{{option.list.length}}个选项</block>
+				</text>
+				<text wx:if="{{result}}">{{result.name}}</text>
+				<text>
+					<block>由{{creator}}发起</block>
+					<block wx:if="{{participations.length}}"> | 已有{{participations.length}}人报名</block>
+					<block wx:else> | 暂无人报名</block>
+				</text>
+			</view>
+			<view class="subscribe-button" bind:tap="handleSubscribeMessage" wx:if="{{!result}}">
+				<view class="lds-dual-ring" wx:if="{{subscribing}}"></view>
+				<block wx:else>
+					<image src="../../icons/subscribe-{{subscribed ? 'on' : 'off'}}.png"></image>
+					<text class="{{subscribed ? 'on' : ''}}">结果通知</text>
+				</block>
+			</view>
+		</view>
+		<view class="remark-block" wx:if="{{remark}}">{{remark}}</view>
+	</section>
+
+	<view class="option-block segment" wx:if="{{option.mode === 'segment'}}">
+		<view class="side-column">
+			<text class="row-title" wx:for="{{option.segments}}" wx:key="index">{{item}}</text>
+		</view>
+		<view class="main" style="grid-template-columns: repeat({{option.range}}, minmax(0, 1fr));">
+			<view class="column-title" wx:for="{{tools.datesBetween(option.startDate, tools.dateAdd(option.startDate, option.range - 1))}}" wx:key="index">
+				<text class="title">{{tools.displayDate(item, 'dd日')}}</text>
+				<text class="subtitle">{{tools.displayDate(item, '周D')}}</text>
+			</view>
+			<view class="cell {{index < option.range ? 'top' : ''}} {{index >= (option.segments.length - 1) * option.range ? 'bottom' : ''}} {{item.locked ? 'locked' : item.votes ? 'active' : ''}} {{result.index === item.originalIndex ? 'result' : ''}}" wx:for="{{resultGraph}}" wx:key="index">
+				<view class="cell-bg" wx:if="{{!item.disable && !item.locked && !result}}" style="transform: translateY({{100 - item.votes / participations.length * 100}}%); background-color: hsl(143,{{43 + item.votes / participations.length * 10}}%,{{78 - item.votes / participations.length * 30}}%);"></view>
+				<image wx:if="{{item.locked}}" src="/icons/lock.png"></image>
+				<text wx:else>{{item.votes}}</text>
+			</view>
+		</view>
+	</view>
+
+	<view class="option-block day" wx:if="{{option.mode === 'day'}}">
+		<view class="title" wx:for="{{tools.dayNames()}}" wx:key="index">周{{item}}</view>
+		<view class="cell {{item.locked ? 'locked' : item.votes ? 'active' : ''}} {{item.disable ? 'disable' : result.index === item.originalIndex ? 'result' : ''}}" wx:for="{{resultGraph}}" wx:key="index">
+			<view class="cell-bg" wx:if="{{!item.disable && !item.locked && !result}}" style="transform: translateY({{100 - item.votes / participations.length * 100}}%); background-color: hsl(143,{{43 + item.votes / participations.length * 10}}%,{{78 - item.votes / participations.length * 30}}%);"></view>
+			<image wx:if="{{item.locked}}" src="/icons/lock.png"></image>
+			<block wx:else>
+				<text class="title">{{item.name}}</text>
+				<text>{{item.votes}}</text>
+			</block>
+		</view>
+	</view>
+
+	<view class="option-block list" wx:if="{{option.mode === 'list'}}">
+		<view class="cell {{item.locked ? 'locked' : item.votes ? 'active' : ''}} {{result.index === item.originalIndex ? 'result' : ''}}" wx:for="{{resultGraph}}" wx:key="index">
+			<view class="cell-bg" wx:if="{{!item.disable && !item.locked && !result}}" style="transform: translateX({{(item.votes / participations.length - 1) * 100}}%); background-color: hsl(143,{{43 + item.votes / participations.length * 10}}%,{{78 - item.votes / participations.length * 30}}%);"></view>
+			<image wx:if="{{item.locked}}" src="/icons/lock.png"></image>
+			<text wx:else>{{item.name}}<text style="opacity: 0.7;"> （{{item.votes ? item.votes + ' ' : '无'}}人选择）</text></text>
+		</view>
+	</view>
+
+	<block wx:if="{{!result}}">
+		<block wx:if="{{registered}}">
+			<block wx:if="{{mySelection}}">
+				<btn openType="share" class="btn-margin">邀请好友</btn>
+				<btn type="secondary" bind:tap="handleEditParticipation">修改报名</btn>
+			</block>
+			<block wx:else>
+				<btn bind:tap="handleEditParticipation">我要报名</btn>
+			</block>
+		</block>
+		<block wx:else>
+			<btn open-type="getUserInfo" bind:getUserInfo="handleUserInfo">{{registering ? '注册中...': '授权信息并报名'}}</btn>
+		</block>
+	</block>
+
+	<section title="推荐时间" wx:if="{{resultList.length}}">
+		<view class="recommendation-setting-block">
+			<view class="setting {{recommendationSettings.displaySupporters ? 'active' : ''}}" bind:tap="handleRecommendationSettingSwitch" data-type="can">
+				<view class="radio">
+					<view class="center"></view>
+				</view>
+				<text>显示有空的</text>
+			</view>
+			<view class="setting {{recommendationSettings.displaySupporters ? '' : 'active'}}" bind:tap="handleRecommendationSettingSwitch" data-type="cant">
+				<view class="radio">
+					<view class="center"></view>
+				</view>
+				<text>显示没空的</text>
+			</view>
+		</view>
+		<view class="recommendation-block" wx:for="{{resultList}}" wx:if="{{showFullRecommendation || index < 3}}" wx:key="index">
+			<view class="description">
+				<text class="name">{{item.name}}</text>
+				<text class="subname" wx:if="{{recommendationSettings.displaySupporters}}">{{item.supporters.length === participations.length ? '全员有空' : item.supporters.length + '人有空'}}</text>
+				<text class="subname" wx:else>{{item.supporters.length === participations.length ? '全员有空' : (participations.length - item.supporters.length) + '人没空'}}</text>
+			</view>
+			<view class="voters" wx:if="{{recommendationSettings.displaySupporters}}">
+				<view class="voter" wx:for="{{item.supporters}}" wx:for-item="voter" wx:key="index"
+					data-avatar="{{voter.avatar}}" data-nick-name="{{voter.nickName}}" bind:touchstart="handleUserHoverStart" bind:touchend="handleUserHoverEnd">
+					<avatar src="{{voter.avatar}}" avatar-style="height: 80rpx; width: 80rpx; border-radius: 6rpx;"></avatar>
+				</view>
+			</view>
+			<view class="voters" wx:else>
+				<view class="no-voter-text" wx:if="{{!item.antis.length}}">🈚️</view>
+				<view class="voter" wx:for="{{item.antis}}" wx:for-item="voter" wx:key="index"
+					data-avatar="{{voter.avatar}}" data-nick-name="{{voter.nickName}}" bind:touchstart="handleUserHoverStart" bind:touchend="handleUserHoverEnd">
+					<avatar disable src="{{voter.avatar}}" avatar-style="height: 80rpx; width: 80rpx; border-radius: 6rpx;"></avatar>
+				</view>
+			</view>
+		</view>
+		<view class="show-full-recommendation-button" wx:if="{{!showFullRecommendation && resultList.length > 3}}" bind:tap="handleShowFullRecommendation">
+			<text>展开全部时间段报名情况 (共{{resultList.length}}条)</text>
+			<image src="../../icons/down.png"></image>
+		</view>
+	</section>
+
+	<section title="管理功能" wx:if="{{isCreator}}">
+		<block wx:if="{{!result}}">
+			<view class="manage-block" hover-class="manage-block-hover" wx:if="{{resultList.length}}" bind:tap="handleOpenResultPicker">
+				<text>发送确定日期通知</text>
+				<image src="../../icons/enter.png"></image>
+			</view>
+			<view class="manage-block" hover-class="manage-block-hover" bind:tap="handleEditLock">
+				<text>锁定选项</text>
+				<image src="../../icons/enter.png"></image>
+			</view>
+			<view class="manage-block" hover-class="manage-block-hover" bind:tap="handleEditPlan">
+				<text>修改群约标题</text>
+				<image src="../../icons/enter.png"></image>
+			</view>
+		</block>
+		<view wx:if="{{result}}" class="manage-block" hover-class="manage-block-hover" bind:tap="handleReopenPlan">
+			<text>开启报名</text>
+			<image src="../../icons/enter.png"></image>
+		</view>
+	</section>
+
+	<section title="更多功能">
+		<view class="manage-block" hover-class="manage-block-hover" bind:tap="handleGetQR">
+			<text>生成群约分享码</text>
+			<image src="../../icons/enter.png"></image>
+		</view>
+		<view class="manage-block" hover-class="manage-block-hover" bind:tap="handleGetXLSX">
+			<text>导出报名数据表格</text>
+			<image src="../../icons/enter.png"></image>
+		</view>
+	</section>
+</container>

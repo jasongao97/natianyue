@@ -1,0 +1,16 @@
+<!--pages/qrShare/qrShare.wxml-->
+<navigation-bar title="群约分享码" action="back" loading="{{!loaded}}" />
+
+<container>
+  <view class="holder" wx:if="{{!showCanvas}}" wx:if="{{!loaded}}">
+    <view class="holder-animation">
+      <view wx:for="{{6}}" wx:key="index" style="animation-delay: 0.{{index}}s;"></view>
+    </view>
+    <text>分享码生成中</text>
+  </view>
+  <canvas class="share-code" type="2d" id="share-code" bind:tap="handleSave"></canvas>
+</container>
+
+<footer>
+  <btn bind:tap="handleSave">保存图片</btn>
+</footer>

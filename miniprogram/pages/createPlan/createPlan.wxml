@@ -1,0 +1,122 @@
+<!--miniprogram/pages/createPlan/createPlan.wxml-->
+<wxs module="tools" src="../../util/tools.wxs"></wxs>
+
+<half-modal show="{{showSegmentEditor}}" bind:modalClose="handleSegmentEditorClose" title="时间选项模板" description="编辑时间选项" rightButtonName="{{tools.compareArray(segmentSettingEdit, segmentSettings[segmentSettingEditIndex]) ? '' : '完成'}}" rightButtonColor="{{segmentSettingEdit.name && segmentSettingEdit.segments[0] ? '#3ABB6A' : '#b2b2b2'}}" bind:rightButtonTap="handleSegmentEditorSave">
+	<scroll-view class="editor-scroll" scroll-y="true">
+		<section title="模板名称" margin="{{false}}">
+			<input value="{{segmentSettingEdit.name}}" bind:input="handleSegmentSettingNameInput" class="title-block" placeholder-class="input-placeholder" placeholder="请输入模板名称" />
+		</section>
+		<section title="时间选项" bg="{{false}}">
+			<drag-list wx:if="{{showSegmentEditorDragList}}" list="{{segmentSettingEdit.segments}}" bind:listChange="handleSegmentSettingChange" addButtonName="添加选项" />
+		</section>
+
+		<section wx:if="{{segmentSettings[segmentSettingEditIndex]}}">
+      <button class="modal-button-block delete" hover-class="modal-button-block-hover" bind:tap="handleSegmentSettingDelete">删除模板</button>
+    </section>
+	</scroll-view>
+</half-modal>
+
+<half-modal show="{{showDateSelector}}" bind:modalClose="handleDateSelectorClose" bind:rightButtonTap="handleDateSelectorClear" title="{{startDate && endDate ? startDate === endDate ? tools.displayDate(startDate, 'MM月dd日') + ' 单日' : tools.displayDate(startDate, 'MM月dd日') + ' ~ ' + tools.displayDate(endDate, 'MM月dd日') : startDate ? '点击选择结束日期' : '点击选择开始及结束日期'}}" description="{{optionMode === 'segment' ? '时段模式支持最多 7 天' : '整天模式支持最多 30 天'}}">
+	<calendar-picker startDate="{{startDate}}" endDate="{{endDate}}" max="{{optionMode === 'segment' ? 7 : 30}}" bind:dateChange="handleDateSelectorChange" />
+</half-modal>
+
+<navigation-bar title="新建群约" action="back" actionOverride bind:action="handleNavAction" step="{{step}}" bind:stepChange="handleStepChange" loading="{{submitting}}" />
+
+<container hidden="{{step !== 1}}">
+	<section title="基本信息">
+		<input value="{{title}}" bind:input="handleTitleInput" class="title-block" placeholder-class="input-placeholder {{showWarn && !title ? 'warn' : ''}}" id="title" placeholder="请输入群约标题" focus />
+		<view class="textarea-block">
+			<textarea value="{{remark}}" style="{{textareaStyle}}" auto-height="true" cursor-spacing="20" maxlength="-1" placeholder="备注（选填）" placeholder-class="input-placeholder" bind:input="handleRemarkInput"></textarea>
+			<view class="clipboard" wx:if="{{!remark}}" bind:tap="handleClipboard">粘贴自剪贴板</view>
+		</view>
+	</section>
+
+	<section title="选项模式">
+		<view class="tab-block">
+			<view class="tabs">
+				<template name="optionTab">
+					<view class="tab {{optionMode === name?'highlight':''}}" id="{{name}}" bind:tap="handleTabSwitch">
+						<image wx:if="{{optionMode === name}}" src="../../icons/tabs/tab-{{name}}-highlight.png"></image>
+						<image wx:else src="../../icons/tabs/tab-{{name}}.png"></image>
+						<text class="tab-title">{{title}}</text>
+						<text class="tab-subtitle">{{subtitle}}</text>
+					</view>
+				</template>
+				<template is="optionTab" data="{{optionMode, name: 'segment', title: '约时段', subtitle: '饭局 电影 会议'}}" />
+				<template is="optionTab" data="{{optionMode, name: 'day', title: '约整天', subtitle: '出游 上班'}}" />
+				<template is="optionTab" data="{{optionMode, name: 'list', title: '自定义', subtitle: '自定'}}" />
+			</view>
+			<!-- <view class="tab-intro"></view> -->
+		</view>
+	</section>
+
+	<btn class="step-button" bind:tap="handleNextStep">下一步</btn>
+</container>
+
+<container wx:if="{{step === 2}}">
+	<section title="日期区间" wx:if="{{optionMode === 'segment' || optionMode === 'day'}}">
+		<view class="date-block {{startDate && endDate ? '' : 'date-block-blank'}}" id="date-block" bind:tap="handleDate" hover-class="date-block-hover" hover-start-time="20" hover-stay-time="50">
+			<view class="date-block-content">
+				<text wx:if="{{startDate && endDate && startDate === endDate}}">{{tools.displayDate(startDate, 'MM月dd日 周D') + ' 单日'}}</text>
+				<text wx:elif="{{startDate && endDate}}">{{tools.displayDate(startDate, 'MM月dd日 周D') + ' ~ ' + tools.displayDate(endDate, 'MM月dd日 周D') + ' (共' + (tools.datesBetween(startDate, endDate).length) + '天)'}}</text>
+				<text wx:else class="{{showWarn ? 'warn' : ''}}">点击选择日期区间</text>
+			</view>
+			<image src="../../icons/enter.png"></image>
+		</view>
+	</section>
+
+	<section title="时间选项模板" wx:if="{{optionMode === 'segment'}}">
+		<view>
+			<view class="segment-settings-block" wx:for="{{segmentSettings}}" wx:key="index" id="{{index}}" bind:tap="handleSegmentSettingSwitch">
+				<view class="segment-setting-radio">
+					<view class="segment-setting-radio-center {{segmentSettingActiveIndex === index ? 'segment-setting-radio-active' : ''}}"></view>
+				</view>
+				<view class="segment-setting">
+					<view class="segment-setting-content">
+						<text class="name">{{item.name}}</text>
+						<text class="description">{{item.segments.length > 2 ? item.segments[0] + '、' + item.segments[1] + ' 共' + item.segments.length + '个选项' : tools.joinArray(item.segments, '、')}}</text>
+					</view>
+					<image src="../../icons/more.png" id="{{index}}" catch:tap="handleSegmentSettingEdit"></image>
+				</view>
+			</view>
+		</view>
+		<view class="segment-settings-add-button" bind:tap="handleSegmentSettingCreate" id="segment-block">
+			<view class="segment-settings-add-button-icon">
+				<image src="../../icons/plus.png"></image>
+			</view>
+			<text class="{{showWarn && !segmentSettings[segmentSettingActiveIndex] ? 'warn' : ''}}">新建时间选项模板</text>
+		</view>
+	</section>
+
+	<section title="自定义选项" bg="{{false}}" wx:if="{{optionMode === 'list'}}">
+		<drag-list list="{{options}}" bind:listChange="handleListChange" addButtonName="添加选项" showWarn="{{showWarn}}" />
+	</section>
+
+	<view style="height: 32rpx; padding-bottom: {{footerHeight}}px;"></view>
+</container>
+
+<footer bg wx:if="{{step === 2}}">
+	<view id="footer">
+		<view class="footer-preview" wx:if="{{optionMode === 'segment'}}">
+			<view class="footer-preview-content" wx:if="{{startDate && endDate && segmentSettings[segmentSettingActiveIndex]}}">
+				<view class="footer-preview-side-column">
+					<view class="footer-preview-row-title" wx:for="{{tools.clipArray(segmentSettings[segmentSettingActiveIndex].segments, 4)}}" wx:key="index">{{item}}</view>
+				</view>
+				<view class="footer-preview-column" wx:for="{{tools.datesBetween(startDate, endDate)}}" wx:key="index" style="width: {{140 - (tools.datesBetween(startDate, endDate).length * 10)}}rpx;">
+					<view class="footer-preview-column-title">{{tools.displayDate(item, 'dd日')}}</view>
+					<block wx:for="{{tools.clipArray(segmentSettings[segmentSettingActiveIndex].segments, 4)}}" wx:key="index">
+						<view wx:if="{{item !== '…'}}" class="footer-preview-cell"></view>
+						<block wx:else>
+							<view class="footer-preview-cell-sm" wx:for="{{[1, 2]}}" wx:key="index"></view>
+						</block>
+					</block>
+				</view>
+			</view>
+			<text wx:else>请将信息补充完整以显示预览</text>
+		</view>
+		<view class="footer-button-block">
+			<btn class="footer-button-go-back" type="secondary" size="medium" bind:tap="handleGoBackToLastStep">上一步</btn>
+			<btn class="footer-button-submit" size="medium" bind:tap="handleSubmit" loading="{{submitting}}">{{submitting ? '发起中...' : '发起群约'}}</btn>
+		</view>
+	</view>
+</footer>

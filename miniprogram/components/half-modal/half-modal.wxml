@@ -1,0 +1,20 @@
+<!--components/half-modal/half-modal.wxml-->
+
+<view class="mask" style="{{show ? '' : 'opacity: 0;'}}" catch:touchmove="handleModalClose" bind:tap="handleModalClose" wx:if="{{render}}">
+	<view class="modal" style="padding-bottom: {{safeMargin ? safeMargin + 'px' : '32rpx'}}; {{show ? '' : 'transform: translateY(100%);'}}" catch:touchmove="doNothing" catch:tap="doNothing">
+		<view class="title-bar">
+			<view class="title-bar-left">
+				<image class="close-button" bind:tap="handleModalClose" src="../../icons/close.png"></image>
+			</view>
+			<view class="title-bar-center">
+				<view class="title">{{title}}</view>
+				<view class="description" wx:if="{{description}}">{{description}}</view>
+			</view>
+			<view class="title-bar-right">
+				<view wx:if="{{loading}}" class="loading"></view>
+				<view class="right-button" style="color: {{rightButtonColor}};" wx:if="{{rightButtonName && !loading}}" bind:tap="handleRightButtonTap">{{rightButtonName}}</view>
+			</view>
+		</view>
+		<slot />
+	</view>
+</view>

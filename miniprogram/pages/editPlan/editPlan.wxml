@@ -1,0 +1,19 @@
+<!--pages/editPlan/editPlan.wxml-->
+<navigation-bar title="编辑群约" action="back" loading="{{saving}}"/>
+
+<container>
+  <section title="标题">
+    <input value="{{title}}" bind:input="handleTitleInput" class="title-block"
+      placeholder-class="input-placeholder {{showWarn && !title ? 'warn' : ''}}" id="title" placeholder="请输入群约标题"/>
+  </section>
+
+  <section title="备注">
+    <view class="textarea-block">
+      <textarea value="{{remark}}" style="{{textareaStyle}}" auto-height="true" cursor-spacing="20" maxlength="-1"
+        placeholder="备注（选填）" placeholder-class="input-placeholder" bind:input="handleRemarkInput"></textarea>
+      <view class="clipboard" wx:if="{{!remark}}" bind:tap="handleClipboard">粘贴自剪贴板</view>
+    </view>
+  </section>
+
+  <btn style="margin-top: 32rpx;" bind:tap="handleSave" loading="{{saving}}">保存</btn>
+</container>

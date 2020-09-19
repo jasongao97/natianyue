@@ -1,0 +1,74 @@
+<!--pages/editParticipation/editParticipation.wxml-->
+<wxs module="tools" src="../../util/tools.wxs"></wxs>
+
+<navigation-bar title="报名" action="back" loading="{{submitting}}" />
+
+<view>
+	<section margin="{{false}}" id="info-bar">
+		<view class="info-block">
+			<view class="title-block">
+				<text class="title">{{title}}</text>
+				<view class="status open">报名中</view>
+			</view>
+			<text>
+				<block wx:if="{{option.mode === 'segment' || option.mode === 'day'}}">{{tools.displayDate(option.startDate, 'yyyy年MM月dd日')}} ~ {{tools.displayDate(tools.dateAdd(option.startDate, option.range - 1), 'MM月dd日')}}</block>
+				<block wx:if="{{option.mode === 'segment' && option.segments.length < 3}}"> 的 {{tools.joinArray(option.segments, '、')}}</block>
+				<block wx:if="{{option.mode === 'segment' && option.segments.length >= 3}}"> 的 {{option.segments[0]}} 等{{option.segments.length}}个时段</block>
+				<block wx:if="{{option.mode === 'list'}}">{{option.list.length}}个选项</block>
+			</text>
+		</view>
+	</section>
+
+	<scroll-view scroll-y="true" style="height: {{mainHeight}}px; margin-top: {{infoBarHeight}}px;">
+		<view class="center" style="min-height: {{mainHeight}}px;">
+			<view class="option-block segment" wx:if="{{option.mode === 'segment'}}">
+				<view class="side-column">
+					<text class="row-title" wx:for="{{option.segments}}" wx:key="index">{{item}}</text>
+				</view>
+				<view class="main" style="grid-template-columns: repeat({{option.range}}, minmax(0, 1fr));">
+					<view class="column-title" wx:for="{{tools.datesBetween(option.startDate, tools.dateAdd(option.startDate, option.range - 1))}}" wx:key="index">
+						<text class="title">{{tools.displayDate(item, 'dd日')}}</text>
+						<text class="subtitle">{{tools.displayDate(item, '周D')}}</text>
+					</view>
+					<view class="cell {{index < option.range ? 'top' : ''}} {{index >= (option.segments.length - 1) * option.range ? 'bottom' : ''}} {{item.locked ? 'locked' : item.selected ? 'selected' : ''}}" wx:for="{{optionGraph}}" wx:key="index" data-index="{{index}}" id="cell{{index}}" bind:tap="toggleOption">
+						<view wx:if="{{item.locked}}" class="locked-icon">
+							<image style="{{index === warningIndex ? 'opacity: 0' : 'opacity: 1'}}" src="/icons/lock.png"></image>
+							<image style="{{index === warningIndex ? 'opacity: 1' : 'opacity: 0'}}" src="/icons/lock-warning.png"></image>
+						</view>
+					</view>
+				</view>
+			</view>
+
+			<view class="option-block day" wx:if="{{option.mode === 'day'}}">
+				<view class="title" wx:for="{{tools.dayNames()}}" wx:key="index">周{{item}}</view>
+				<view class="cell {{item.disable ? 'disable' : ''}} {{item.locked ? 'locked' : item.selected ? 'selected' : ''}}" wx:for="{{optionGraph}}" wx:key="index" data-index="{{index}}" id="cell{{index}}" bind:tap="{{!item.disable ? 'toggleOption' : ''}}">
+					<view wx:if="{{item.locked}}" class="locked-icon">
+						<image style="{{index === warningIndex ? 'opacity: 0' : 'opacity: 1'}}" src="/icons/lock.png"></image>
+						<image style="{{index === warningIndex ? 'opacity: 1' : 'opacity: 0'}}" src="/icons/lock-warning.png"></image>
+					</view>
+					<text wx:else class="title">{{item.name}}</text>
+				</view>
+			</view>
+
+			<view class="option-block list" wx:if="{{option.mode === 'list'}}">
+				<view class="cell {{item.locked ? 'locked' : item.selected ? 'selected' : ''}}" wx:for="{{optionGraph}}" wx:key="index" data-index="{{index}}" id="cell{{index}}" bind:tap="toggleOption">
+					<view wx:if="{{item.locked}}" class="locked-icon">
+						<image style="{{index === warningIndex ? 'opacity: 0' : 'opacity: 1'}}" src="/icons/lock.png"></image>
+						<image style="{{index === warningIndex ? 'opacity: 1' : 'opacity: 0'}}" src="/icons/lock-warning.png"></image>
+					</view>
+					<text wx:else>{{item.name}}</text>
+				</view>
+			</view>
+		</view>
+	</scroll-view>
+</view>
+
+<footer bg>
+	<view id="footer">
+		<text class="footer-description">请选择自己有空的时间</text>
+		<view class="footer-button-block">
+			<btn class="footer-button-all" type="secondary" size="medium" bind:tap="toggleAll">{{!allSelected ? '全选' : '清除'}}</btn>
+			<btn class="footer-button-submit" size="medium" bind:tap="submit" loading="{{submitting}}">提交报名</btn>
+		</view>
+	</view>
+</footer>

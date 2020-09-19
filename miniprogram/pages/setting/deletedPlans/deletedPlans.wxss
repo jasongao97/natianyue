@@ -1,0 +1,26 @@
+/* pages/setting/deletedPlans/deletedPlans.wxss */
+
+/* empty-holder */
+.empty-holder {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-60%);
+  width: 750rpx;
+  height: 900rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.empty-holder-image {
+  width: 600rpx;
+  height: 600rpx;
+}
+.empty-holder-text {
+  margin-top: -20rpx;
+  color: #888;
+  font-weight: bold;
+  text-align: center;
+  font-size: 15px;
+  line-height: 24px;
+}

@@ -1,0 +1,23 @@
+<!--components/calendar-picker/calendar-picker.wxml-->
+<view class="title-group">
+	<view wx:for="{{daysTitle}}" wx:key="index" class="title">{{item}}</view>
+</view>
+
+<scroll-view scroll-y="true" class="scroll-view">
+	<view class="calendar">
+		<wxs module="dayItem">
+			module.exports.getClass = function(enable, index, startIndex, endIndex, max) {
+				if (!enable) return 'disable';
+				if (index === startIndex && index === endIndex) return 'startend';
+				if (index === startIndex) return 'start';
+				if (index === endIndex) return 'end';
+				if (index > startIndex && index < endIndex) return 'between';
+				if (startIndex !== null && endIndex === null && index > startIndex && index < startIndex + max) return 'between';
+			}
+		</wxs>
+		<view wx:for="{{days}}" wx:key="index" id="{{index}}" class="day {{dayItem.getClass(item.enable, index, startIndex, endIndex, max)}}" bind:tap="{{item.enable ? 'handleDayTap' : ''}}">
+			<text class="date">{{item.date}}</text>
+			<text class="remark">{{item.remark}}</text>
+		</view>
+	</view>
+</scroll-view>

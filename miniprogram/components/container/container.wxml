@@ -1,0 +1,4 @@
+<!--components/container/container.wxml-->
+<view class="container" hidden="{{hidden}}" style="padding-bottom: {{safeMargin ? safeMargin + 'px' : '32rpx'}}">
+	<slot />
+</view>

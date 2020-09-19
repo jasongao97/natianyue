@@ -1,0 +1,43 @@
+/* components/avatar/avatar.wxss */
+.placeholder {
+  background-color: #eee;
+}
+
+.placeholder.disable {
+  background: linear-gradient(45deg,
+      rgba(0, 0, 0, .3) 0, rgba(0, 0, 0, .3) 25%, transparent 25%, transparent 50%,
+      rgba(0, 0, 0, .3) 50%, rgba(0, 0, 0, .3) 75%, transparent 75%, transparent);
+  background-size: 24px 24px;
+}
+
+.image {
+  transition: opacity .2s;
+}
+
+.image.transparent {
+  opacity: 0;
+}
+
+.image.disable-loaded {
+  opacity: .5;
+}
+
+.image.loaded {
+  opacity: 1;
+}
+
+.breathing {
+  animation: breathe 2s linear infinite;
+}
+
+@keyframes breathe {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+}

@@ -1,0 +1,33 @@
+/* components/section/section.wxss */
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.margin-section {
+  margin-top: 32rpx;
+}
+
+.title {
+  margin-left: 36rpx;
+  margin-bottom: 20rpx;
+  font-size: 13px;
+  color: #888;
+}
+
+.content {
+  width: 750rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-bg {
+  background-color: #fff;
+  border-top: 1px #f2f2f2 solid;
+  border-bottom: 1px #f2f2f2 solid;
+}
+
+.content-higher {
+  margin-top: -1px;
+}

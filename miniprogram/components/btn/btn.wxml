@@ -1,0 +1,4 @@
+<!--components/btn/btn.wxml-->
+<button class="button {{type}} {{size}}" hover-class="hover {{type}}-hover" open-type="{{openType}}" bind:getuserinfo="handleUserInfo" loading="{{loading}}">
+	<slot></slot>
+</button>

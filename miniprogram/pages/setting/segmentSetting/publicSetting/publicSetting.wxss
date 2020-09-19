@@ -1,0 +1,49 @@
+/* pages/setting/segmentSetting/publicSetting/publicSetting.wxss */
+
+.segment-settings-block {
+  font-size: 17px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.segment-settings-block:last-child > .segment-setting {
+  border-bottom: none;
+}
+
+.segment-setting {
+  flex-grow: 1;
+  border-bottom: 1px #f2f2f2 solid;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.segment-setting-content {
+  padding: 28rpx 40rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.segment-setting-content > .name {
+  font-size: 16px;
+}
+
+.segment-setting-content > .description {
+  word-break: break-all;
+  margin-top: 4px;
+  font-size: 14px;
+  color: #888;
+}
+
+.segment-setting > btn {
+  margin-right: 40rpx;
+}
+
+.segment-setting > .state {
+  margin-right: 40rpx;
+  font-size: 16px;
+  color: #888;
+}

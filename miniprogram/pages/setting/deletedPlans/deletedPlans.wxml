@@ -1,0 +1,11 @@
+<!--pages/setting/deletedPlans/deletedPlans.wxml-->
+<navigation-bar title="已删除的群约" action="back" loading="{{!loaded}}" />
+
+<container wx:if="{{loaded || deletedPlans}}">
+  <view class="empty-holder" wx:if="{{!deletedPlans.length}}">
+    <image class="empty-holder-image" src="../../../images/emptyholder.png"></image>
+    <text class="empty-holder-text">暂时没有已删除的群约</text>
+  </view>
+  <plan-list plans="{{deletedPlans}}" action="restore" bind:enter="handleEnterPlan" bind:restore="handleRestore" loading="{{restoring}}">
+  </plan-list>
+</container>

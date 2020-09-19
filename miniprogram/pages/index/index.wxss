@@ -1,0 +1,133 @@
+/**index.wxss**/
+@import "../../style/plan.wxss";
+
+/* first load animation */
+.info-block > .title-holder {
+  width: 320rpx;
+  height: 20px;
+  margin: 10rpx 0;
+  border-radius: 4rpx;
+  background-color: #DDD;
+}
+
+.info-block > .info-holder {
+  width: 500rpx;
+  margin-top: 18rpx;
+  height: 14px;
+  border-radius: 4rpx;
+  background-color: #eeeeee;
+}
+
+.animation-1 {
+  animation: animation-1 3s linear infinite;
+}
+.animation-2 {
+  animation: animation-2 2.5s linear infinite;
+}
+.animation-3 {
+  animation: animation-3 4s linear infinite;
+}
+.animation-4 {
+  animation: animation-4 2s linear infinite;
+}
+.fadein {
+  animation: fadein 0.2s linear normal;
+  opacity: 1;
+}
+.fadeout {
+  animation: fadeout 0.2s linear 1;
+  opacity: 0;
+}
+@keyframes animation-1{
+  0% { width: 320rpx; }
+  50% { width: 200rpx; }
+  100% { width: 320rpx; }
+}
+@keyframes animation-2{
+  0% { width: 420rpx; }
+  50% { width: 540rpx; }
+  100% { width: 420rpx; }
+}
+@keyframes animation-3{
+  0% { width: 350rpx; }
+  50% { width: 600rpx; }
+  100% { width: 350rpx; }
+}
+@keyframes animation-4{
+  0% { width: 500rpx; }
+  50% { width: 420rpx; }
+  100% { width: 500rpx; }
+}
+@keyframes fadein{
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+@keyframes fadeout{
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* unregistered */
+swiper {
+  position: absolute;
+  top: 50%;
+  margin-top: -500rpx;
+  width: 750rpx;
+  height: 900rpx;
+}
+swiper-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+swiper-item > image {
+  width: 600rpx;
+  height: 600rpx;
+}
+swiper-item > text.title {
+  text-align: center;
+  margin-top: -40rpx;
+  color: #000;
+  font-size: 34rpx;
+  font-weight: bold;
+}
+swiper-item > text {
+  width: 420rpx;
+  text-align: center;
+  margin-top: 10rpx;
+  color: #888;
+  font-size: 28rpx;
+}
+
+/* empty-holder */
+.empty-holder {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-60%);
+  width: 750rpx;
+  height: 900rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.empty-holder > image {
+  width: 600rpx;
+  height: 600rpx;
+}
+.empty-holder > text {
+  margin-top: -20rpx;
+  color: #888;
+  font-weight: bold;
+  text-align: center;
+  font-size: 15px;
+  line-height: 24px;
+}
+
+.btn-holder {
+  width: 686rpx;
+  height: 46px;
+  background-color: #c4dfce;
+  border-radius: 5px;
+}

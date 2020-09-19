@@ -1,0 +1,71 @@
+<!--index.wxml-->
+<wxs module="tools" src="../../util/tools.wxs"></wxs>
+
+<navigation-bar title="{{registered ? '最近的群约' : '欢迎来到哪天约'}}" action="setting" loading="{{loading || registering}}" />
+
+<block wx:if="{{!firstLoaded}}">
+	<container>
+		<section margin="{{false}}">
+			<view class="info-block">
+				<view class="title-holder"></view>
+				<view class="info-holder animation-{{tools.randomAni(0)}}"></view>
+				<view class="info-holder animation-{{tools.randomAni(1)}}"></view>
+			</view>
+		</section>
+
+		<section margin="{{false}}">
+			<view class="info-block">
+				<view class="title-holder"></view>
+				<view class="info-holder animation-{{tools.randomAni(1)}}"></view>
+				<view class="info-holder animation-{{tools.randomAni(0)}}"></view>
+			</view>
+		</section>
+	</container>
+
+	<footer>
+		<view class="btn-holder breathing"></view>
+	</footer>
+</block>
+
+<block wx:if="{{firstLoaded && !registered}}">
+	<container class="fadein">
+		<swiper indicator-dots="true" autoplay="true" indicator-color="rgba(0, 0, 0, 0.1)" indicator-active-color="#aaa">
+			<swiper-item>
+				<image src="/images/placeholder1.png"></image>
+				<text class="title">约饭局</text>
+				<text>“这周小聚一下吧，你周几有空？中午还是晚上？”</text>
+			</swiper-item>
+			<swiper-item>
+				<image src="/images/placeholder2.png"></image>
+				<text class="title">约学习</text>
+				<text>“我明天前三节有课，下午或者后天前两节课吧？”</text>
+			</swiper-item>
+			<swiper-item>
+				<image src="/images/placeholder3.png"></image>
+				<text class="title">约轰趴</text>
+				<text>“假期了，一整月总能找到大家都有空的时间吧？”</text>
+			</swiper-item>
+		</swiper>
+	</container>
+
+	<footer class="fadein">
+		<btn open-type="getUserInfo" bind:getUserInfo="handleUserInfo" loading="{{registering}}">
+			{{registering ? '开启中...': '授权信息并开启群约生活'}}</btn>
+	</footer>
+</block>
+
+<block wx:if="{{firstLoaded && registered}}">
+	<container class="fadein">
+		<view class="empty-holder" wx:if="{{!savedPlans.length}}">
+			<image src="../../images/emptyholder.png"></image>
+			<text>群约列表空空如也,\n点击底部按钮新建一个约起来吧</text>
+		</view>
+		<plan-list plans="{{savedPlans}}" action="delete" bind:enter="handleEnterPlan" bind:delete="handleDeleted"
+			loading="{{deleting}}"></plan-list>
+		<view style="height: 46px; padding-bottom: 32rpx;"></view>
+	</container>
+
+	<footer class="fadein">
+		<btn bind:tap="handleCreatePlan">新建群约</btn>
+	</footer>
+</block>

@@ -1,0 +1,9 @@
+/* components/container/container.wxss */
+.container {
+  width: 100vw;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+} 

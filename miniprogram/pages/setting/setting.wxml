@@ -1,0 +1,52 @@
+<!--pages/setting/setting.wxml-->
+<navigation-bar title="设置" action="back" />
+
+<container>
+	<block wx:if="{{me}}">
+		<section>
+			<button class="setting-block" hover-class="setting-block-hover" open-type="getUserInfo" bind:getuserinfo="handleUpdateUser">
+				<view class="user-info">
+					<avatar src="{{me.avatar}}" avatar-style="height: 100rpx; width: 100rpx; border-radius: 50%;"></avatar>
+					<text>{{me.nickName}}</text>
+				</view>
+				<view class="right">
+					<text class="sub">更新头像和昵称</text>
+					<image src="../../icons/enter.png"></image>
+				</view>
+			</button>
+		</section>
+		<section margin="{{false}}">
+			<button class="setting-block" hover-class="setting-block-hover" bind:tap="handleToSegmentSetting">
+				<text>管理时间选项模板</text>
+				<view class="right">
+					<image src="../../icons/enter.png"></image>
+				</view>
+			</button>
+		</section>
+		<section margin="{{false}}">
+			<button class="setting-block" hover-class="setting-block-hover" bind:tap="handleToDeletedPlans">
+				<text>已删除的群约</text>
+				<view class="right">
+					<image src="../../icons/enter.png"></image>
+				</view>
+			</button>
+		</section>
+	</block>
+
+	<section>
+		<button class="setting-block" hover-class="setting-block-hover" open-type="feedback">
+			<text>意见与反馈</text>
+			<view class="right">
+				<image src="../../icons/enter.png"></image>
+			</view>
+		</button>
+	</section>
+	<section margin="{{false}}">
+		<button class="setting-block" hover-class="setting-block-hover" bind:tap="handleToAbout">
+			<text>关于</text>
+			<view class="right">
+				<image src="../../icons/enter.png"></image>
+			</view>
+		</button>
+	</section>
+</container>

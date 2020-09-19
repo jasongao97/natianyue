@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "container": "../../components/container/container",
+    "navigation-bar": "../../components/navigation-bar/navigation-bar",
+    "footer": "../../components/footer/footer",
+    "btn": "../../components/btn/btn"
+  }
+}

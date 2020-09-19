@@ -1,0 +1,50 @@
+<!--components/plan-list/plan-list.wxml-->
+<wxs module="tools" src="../../util/tools.wxs"></wxs>
+
+<section margin="{{false}}" wx:for="{{plans}}" wx:key="index">
+  <movable-area class="move-area">
+    <movable-view class="move-view {{action ? 'moveable' : ''}}" data-index="{{index}}" bind:change="handleMove" bind:touchend="handleMoveEnd" direction="horizontal" x="{{movingIndex === index ? move : null}}" out-of-bounds damping="40">
+      <view class="info" hover-class="info-hover" data-index="{{index}}" bind:tap="handlePlanEnter">
+        <view class="content">
+          <view class="heading">
+            <text class="title">{{item.title}}</text>
+            <view class="status {{item.result ? 'close' : 'open'}}">{{item.result ? '已确定' : '报名中'}}</view>
+          </view>
+
+          <text class="description" wx:if="{{!item.result}}">
+            <block wx:if="{{item.option.mode === 'segment' || item.option.mode === 'day'}}">{{tools.displayDate(item.option.startDate, 'yyyy年MM月dd日')}} ~ {{tools.displayDate(tools.dateAdd(item.option.startDate, item.option.range - 1), 'MM月dd日')}}</block>
+            <block wx:if="{{item.option.mode === 'segment' && item.option.segments.length < 3}}"> 的 {{tools.joinArray(item.option.segments, '、')}}</block>
+            <block wx:if="{{item.option.mode === 'segment' && item.option.segments.length >= 3}}"> 的 {{item.option.segments[0]}} 等{{item.option.segments.length}}个时段</block>
+            <block wx:if="{{item.option.mode === 'list'}}">{{item.option.list.length}}个选项</block>
+          </text>
+          <text class="description" wx:else="{{item.result}}">{{item.result.name}}</text>
+
+          <text class="description" wx:if="{{!item.participants.length}}">暂无人报名</text>
+          <text class="description" wx:elif="{{item.participants.length < 3}}">{{tools.joinArray(item.participants, '、')}}已报名</text>
+          <text class="description" wx:else>{{item.participants[0]}}等共{{item.participants.length}}人已报名</text>
+        </view>
+        <image class="enter-button" src="../../icons/enter.png"></image>
+      </view>
+
+      <view wx:if="{{action === 'delete'}}" class="action {{action}}" data-index="{{index}}" data-id="{{item._id}}" bind:tap="handleDelete">
+        <view class="action-info">
+          <view wx:if="{{loading}}" class="loading"></view>
+          <block wx:else>
+            <image class="action-icon delete" src="/icons/plan-delete.png"></image>
+            <text class="action-text">删除</text>
+          </block>
+        </view>
+      </view>
+
+      <view wx:if="{{action === 'restore'}}" class="action {{action}}" data-index="{{index}}" data-id="{{item._id}}" bind:tap="handleRestore">
+        <view class="action-info">
+          <view wx:if="{{loading}}" class="loading"></view>
+          <block wx:else>
+            <image class="action-icon restore" src="/icons/plan-restore.png"></image>
+            <text class="action-text">恢复</text>
+          </block>
+        </view>
+      </view>
+    </movable-view>
+  </movable-area>
+</section>

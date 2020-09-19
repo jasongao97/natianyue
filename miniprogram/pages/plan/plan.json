@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "container": "../../components/container/container",
+    "section": "../../components/section/section",
+    "navigation-bar": "../../components/navigation-bar/navigation-bar",
+    "avatar": "../../components/avatar/avatar",
+    "half-modal": "../../components/half-modal/half-modal",
+    "btn": "../../components/btn/btn"
+  }
+}

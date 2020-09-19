@@ -1,0 +1,59 @@
+/* pages/setting/about/about.wxss */
+.introduction {
+  padding: 32rpx 24rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.introduction > image {
+  height: 120rpx;
+  width: 120rpx;
+  flex-shrink: 0;
+}
+
+.introduction > .content {
+  margin-left: 24rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.introduction > .content > .title {
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.introduction > .content > .description {
+  margin-top: 6rpx;
+  font-size: 13px;
+  color: #888;
+}
+
+.section {
+  padding: 28rpx 32rpx;
+}
+
+.paragraph {
+  margin-top: 32rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.paragraph:first-child {
+  margin-top: 0;
+}
+
+.paragraph > text {
+  margin-top: 8rpx;
+  font-size: 14px;
+  color: #888;
+}
+
+.paragraph > text:first-child {
+  margin-top: 0;
+  color: #353535;
+  font-weight: bold;
+}

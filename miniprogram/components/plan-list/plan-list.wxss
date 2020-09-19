@@ -1,0 +1,151 @@
+/* components/plan-list/plan-list.wxss */
+
+/* moveable */
+.move-area {
+  width: 100vw;
+  height: initial;
+  position: relative;
+  overflow: hidden;
+}
+
+.move-view {
+  width: 100vw;
+  height: initial;
+  display: flex;
+  position: relative;
+}
+
+.move-view.moveable {
+  width: calc(100vw + 160rpx);
+}
+
+.action {
+  position: relative;
+  margin-right: -40rpx;
+  width: 200rpx;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.action.delete {
+  background-color: #e64340;
+}
+
+.action.restore {
+  background-color: #3ABB6A;
+}
+
+.action-info {
+  transform: translateX(-20rpx);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-icon.delete {
+  height: 18px;
+  width: 14px;
+}
+
+.action-icon.restore {
+  height: 18px;
+  width: 18px;
+}
+
+.action-text {
+  margin-top: 8px;
+  font-size: 15px;
+}
+
+/* info */
+.info {
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info-hover {
+  background-color: #eee;
+}
+
+.enter-button {
+  flex-shrink: 0;
+  margin-right: 40rpx;
+  height: 20rpx;
+  width: 12rpx;
+}
+
+.content {
+  padding: 28rpx 36rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.heading {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 6rpx;
+}
+
+.title {
+  font-size: 19px;
+  font-weight: bold;
+}
+
+.status {
+  margin-left: 32rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  border-radius: 15px;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.status.open {
+  min-width: 96rpx;
+  padding: 4rpx 0;
+  border: 3rpx #3ABB6A solid;
+  color: #3ABB6A;
+}
+
+.status.close {
+  min-width: 102rpx;
+  padding: 7rpx 0;
+  background-color: #3ABB6A;
+  color: #FFF;
+}
+
+.description {
+  margin-top: 8rpx;
+  font-size: 14px;
+  word-break: break-word;
+  color: #888;
+}
+
+/* loading animation */
+.loading {
+  width: 15px;
+  height: 15px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 1.5px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: dual-ring 1.2s linear infinite;
+}
+
+@keyframes dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

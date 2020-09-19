@@ -1,0 +1,120 @@
+/* pages/setting/segmentSetting/segmentSetting.wxss */
+
+/* public */
+.public-block {
+  padding: 28rpx 40rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.public-block-hover {
+  background-color: #eee;
+}
+
+.public-block > image {
+  height: 20rpx;
+  width: 12rpx;
+}
+
+/* personal */
+.segment-settings-block {
+  font-size: 17px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.segment-settings-block:last-child > .segment-setting {
+  border-bottom: none;
+}
+
+.segment-setting {
+  flex-grow: 1;
+  border-bottom: 1px #f2f2f2 solid;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.segment-setting-content {
+  padding: 28rpx 40rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.segment-setting-content > .name {
+  font-size: 16px;
+}
+
+.segment-setting-content > .description {
+  word-break: break-all;
+  margin-top: 4px;
+  font-size: 14px;
+  color: #888;
+}
+
+.segment-setting > image {
+  flex-shrink: 0;
+  padding: 48rpx;
+  width: 18px;
+  height: 4px;
+}
+
+.segment-settings-add-button {
+  background-color: #fff;
+  border-top: 1px #f2f2f2 solid;
+  font-size: 17px;
+  color: #b2b2b2;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.segment-settings-add-button-icon {
+  margin: 0 32rpx 0 40rpx;
+  width: 18px; height: 18px;
+  border-radius: 9px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #3ABB6A;
+}
+
+.segment-settings-add-button-icon > image {
+  width: 9px; height: 9px;
+}
+
+.segment-settings-add-button > text {
+  padding: 30rpx 0;
+}
+
+.title-block {
+  padding: 32rpx 40rpx;
+}
+.input-placeholder {
+  font-size: 17px;
+  color: #aaa;
+}
+
+.modal-button-block {
+  width: 750rpx;
+  border-radius: 0;
+  margin: 0;
+  padding: 32rpx 40rpx;
+  line-height: 1;
+  font-size: 16px;
+  text-align: center;
+}
+
+.modal-button-block.delete {
+  color: #E86363;
+}
+
+.modal-button-block-hover {
+  background-color: #eee;
+}

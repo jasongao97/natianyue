@@ -1,0 +1,4 @@
+<!--components/footer/footer.wxml-->
+<view class="footer {{bg ? 'footer-bg' : ''}}" style="padding-bottom: {{safeMargin ? safeMargin + 'px' : '32rpx'}}">
+	<slot />
+</view>

@@ -1,0 +1,46 @@
+<!--components/navigation-bar/navigation-bar.wxml-->
+<template name="stepBarBlock">
+	<cover-view class="step-bar-block" id="{{id}}" bind:tap="handleStepBarTap">
+		<cover-view class="step-bar-block-title step-bar-block-title-highlight" style="opacity: {{step === id?1:0}}">{{name}}</cover-view>
+		<cover-view class="step-bar-block-title" style="opacity: {{step === id?0:1}}">{{name}}</cover-view>
+	</cover-view>
+</template>
+
+<cover-view class="navigation-bar">
+	<cover-view class="status-bar" style="height: {{statusBarHeight}}px;"></cover-view>
+	<cover-view class="action-bar" style="height: {{actionBarHeight}}px">
+		<cover-view class="action-button-touch-area" wx:if="{{action}}" bind:tap="handleActionButtonTap" style="height: {{actionBarHeight}}px; width: {{bubble.width + 2 * bubble.left}}px">
+			<cover-view class="action-button" hover-start-time="0" hover-stay-time="70" hover-class="action-button-hover" style="height: {{bubble.height}}px; width: {{bubble.width}}px">
+				<cover-image class="action-button-setting" wx:if="{{action === 'setting'}}" src="../../icons/actions/setting.png"></cover-image>
+				<cover-image class="action-button-back" wx:if="{{action === 'back'}}" src="../../icons/actions/back.png"></cover-image>
+				<cover-image class="action-button-home" wx:if="{{action === 'home'}}" src="../../icons/actions/home.png"></cover-image>
+			</cover-view>
+		</cover-view>
+		<cover-view class="title" wx:if="{{!loading}}">{{title}}</cover-view>
+		<cover-view class="loading-title" wx:else>
+			<cover-view class="loading-animation loading-animation-1"></cover-view>
+			<cover-view class="loading-animation loading-animation-2"></cover-view>
+			<cover-view class="loading-animation loading-animation-3"></cover-view>
+			<cover-view class="loading-animation loading-animation-4"></cover-view>
+		</cover-view>
+	</cover-view>
+	<cover-view class="border"></cover-view>
+
+	<block wx:if="{{step}}">
+		<cover-view class="step-bar" style="height: {{stepBarHeight}}px;">
+			<template is="stepBarBlock" data="{{step, id: 1, name: '基础信息'}}" />
+			<cover-image class="step-bar-icon" src="../../icons/step-icon.png"></cover-image>
+			<template is="stepBarBlock" data="{{step, id: 2, name: '配置选项'}}" />
+			<!-- <cover-image class="step-bar-icon" src="../../icons/step-icon.png"></cover-image>
+			<template is="stepBarBlock" data="{{step, id: 3, name: '完成'}}" /> -->
+		</cover-view>
+		<cover-view class="border">
+			<cover-view class="border-progress" style="transform: translateX({{(step - 2) * 375}}rpx);"></cover-view>
+		</cover-view>
+	</block>
+</cover-view>
+
+<view class="placeholder">
+	<view style="height: {{statusBarHeight + actionBarHeight + 1}}px;"></view>
+	<view style="height: {{stepBarHeight + 1}}px;" wx:if="{{step}}"></view>
+</view>

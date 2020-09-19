@@ -1,0 +1,59 @@
+/* pages/editParticipation/editParticipation.wxss */
+@import "../../style/plan.wxss";
+
+#info-bar {
+  position: fixed;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* option */
+.cell.selected {
+  background-color: #3ABB6A;
+}
+
+.locked-icon {
+  position: relative;
+  height: 30rpx;
+  width: 22rpx;
+}
+
+.locked-icon > image {
+  position: absolute;
+  height: 30rpx;
+  width: 22rpx;
+  transition: opacity .2s;
+}
+
+#footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-description {
+  width: 686rpx;
+  padding-top: 28rpx;
+  color: #888888;
+  font-size: 13px;
+  text-align: left;
+}
+
+.footer-button-block {
+  width: 686rpx;
+  display: flex;
+  flex-direction: row;
+  padding-top: 32rpx;
+}
+
+.footer-button-all {
+  margin-right: 32rpx;
+}
+
+.footer-button-submit {
+  flex-grow: 1;
+}

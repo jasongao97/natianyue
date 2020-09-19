@@ -1,0 +1,100 @@
+function _CHNDay(day) {
+  switch (day) {
+    case 0:
+      return '日';
+    case 1:
+      return '一';
+    case 2:
+      return '二';
+    case 3:
+      return '三';
+    case 4:
+      return '四';
+    case 5:
+      return '五';
+    case 6:
+      return '六';
+  }
+}
+
+// Day
+
+function dayNames() {
+  return [0, 1, 2, 3, 4, 5, 6].map(_CHNDay)
+}
+
+// Date
+
+function displayDate(date, form) {
+  // form: 'yyyy年MM月dd日 周D'
+  var date = getDate(date)
+  var year = date.getFullYear()
+  var month = date.getMonth() + 1
+  var day = date.getDate()
+  var weekday = _CHNDay(date.getDay())
+
+  return form.replace('yyyy', year).replace('MM', month).replace('dd', day).replace('D', weekday)
+}
+
+function dateAdd(date, offset) {
+  var date = getDate(date)
+  date.setDate(date.getDate() + offset)
+  return date
+}
+
+function datesBetween(start, end) {
+  var startDate = getDate(start)
+  var endDate = getDate(end)
+
+  var sub = (endDate - startDate) / (1000 * 60 * 60 * 24)
+
+  var output = []
+  for (var i = 0; i <= sub; i++) {
+    var nextDate = getDate(start)
+    nextDate.setDate(startDate.getDate() + i)
+    output.push(nextDate)
+  }
+  return output
+}
+
+// Array
+function joinArray(array, separater) {
+  return array.join(separater)
+}
+
+function compareArray(arrayA, arrayB) {
+  return JSON.stringify(arrayA) === JSON.stringify(arrayB)
+}
+
+function clipArray(array, max) {
+  if (array.length <= max) {
+    return array
+  }
+  var output = array.slice(0, max)
+  output[max - 1] = array[array.length - 1]
+  output[max - 2] = '…'
+  return output
+}
+
+// Animation
+function randomAni (e) {
+  if (e == 1) {
+    return Math.floor(Math.random() * 2) + 1
+  } else {
+    return Math.floor(Math.random() * 2) + 3
+  }
+}
+
+module.exports = {
+  'displayDate': displayDate,
+  'dateAdd': dateAdd,
+  'datesBetween': datesBetween,
+
+  'dayNames': dayNames,
+
+  'joinArray': joinArray,
+  'compareArray': compareArray,
+  'clipArray': clipArray,
+
+  'randomAni': randomAni,
+}

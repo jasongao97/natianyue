@@ -1,0 +1,6 @@
+<!--components/avatar/avatar.wxml-->
+<view class="placeholder {{!loaded && animation ? 'breathing' : ''}}  {{disable ? 'disable' : ''}}" style="{{avatarStyle}}">
+  <image wx:if="{{!failed}}" class="image {{animation ? 'transparent' : ''}} {{loaded && animation ? disable ? 'disable-loaded' : 'loaded' : ''}}" style="{{avatarStyle}}" src="{{src}}" bind:load="handleLoaded" bind:error="handleError"></image>
+  <image wx:else class="image {{animation ? 'transparent' : ''}} {{loaded && animation ? disable ? 'disable-loaded' : 'loaded' : ''}}" style="{{avatarStyle}}" src="../../images/cat-not-found.jpg"></image>
+</view>
+

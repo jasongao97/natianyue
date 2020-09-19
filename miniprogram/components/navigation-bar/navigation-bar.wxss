@@ -1,0 +1,151 @@
+/* components/navigation-bar/navigation-bar.wxss */
+.navigation-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 750rpx;
+  background-color: #f6f6f6;
+}
+
+.action-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.action-button-touch-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.action-button-touch-area-hover .action-button {
+  background-color: #B4B4B4;
+}
+
+.action-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fcfcfc;
+  border: 0.6px #e8e8e8 solid;
+  border-radius: 100px;
+  box-sizing: border-box;
+}
+
+.action-button-hover {
+  background-color: #B4B4B4;
+}
+
+.action-button-setting {
+  width: 17px;
+  height: 15px;
+}
+.action-button-back {
+  width: 7px;
+  height: 12px;
+}
+.action-button-home {
+  width: 16px;
+  height: 15px;
+}
+
+.title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #000;
+  font-size: 17px;
+  font-weight: bold;
+  animation: fadein .1s;
+}
+
+.loading-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 19px;
+  height: 19px;
+}
+
+.loading-animation {
+  position: absolute;
+  background-color: #888;
+  height: 8px;
+  width: 8px;
+  border-radius: 2px;
+  animation: breathe .9s linear infinite;
+}
+
+.loading-animation-1 {
+  top: 0;
+  left: 0;
+  background-color: #3ABB6A;
+  animation-delay: 0s;
+}
+.loading-animation-2 {
+  top: 0;
+  left: 11px;
+  animation-delay: .3s;
+}
+.loading-animation-3 {
+  top: 11px;
+  left: 0;
+  animation-delay: .3s;
+}
+.loading-animation-4 {
+  top: 11px;
+  left: 11px;
+  animation-delay: .6s;
+}
+
+.step-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.step-bar-block {
+  height: 100%;
+  flex: 1;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  color: #888;
+}
+
+.step-bar-block-title {
+  grid-area: 1 / 1 / 1 / 1;
+  transition: opacity .5s;
+}
+
+.step-bar-block-title-highlight {
+  color: #3ABB6A;
+}
+
+.step-bar-icon {
+  width: 6px;
+  height: 10px;
+}
+
+.border {
+  height: 1px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  background-color: #eee;
+}
+
+.border-progress {
+  width: 100%;
+  background-color: #3ABB6A;
+  transition: all .5s;
+}
+
+.placeholder {
+  width: 750rpx;
+}

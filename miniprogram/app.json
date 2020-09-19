@@ -1,0 +1,22 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/setting/setting",
+    "pages/setting/segmentSetting/segmentSetting",
+    "pages/setting/segmentSetting/publicSetting/publicSetting",
+    "pages/setting/deletedPlans/deletedPlans",
+    "pages/setting/about/about",
+    "pages/createPlan/createPlan",
+    "pages/plan/plan",
+    "pages/editPlan/editPlan",
+    "pages/editParticipation/editParticipation",
+    "pages/qrShare/qrShare"
+  ],
+  "window": {
+    "backgroundColor": "#f2f2f2",
+    "backgroundTextStyle": "light",
+    "navigationBarTextStyle": "black",
+    "navigationStyle": "custom"
+  },
+  "sitemapLocation": "sitemap.json"
+}
