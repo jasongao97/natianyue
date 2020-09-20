@@ -16,59 +16,88 @@
 
 ## 仓库结构
 
-- **/couldfunctions**: 云函数 (13个)
+- **/couldfunctions** 云函数 (13个)
 
-  - archivePlan: 归档群约
-  - closePlan: 结束报名
-  - createPlan: 新建群约
-  - editParticipation: 编辑报名
-  - editPlan: 编辑群约
-  - editPlanLock: 编辑锁定选项
-  - getPlanCode: 获取群约小程序码
-  - getPlanXLSX: 获取群约导出 Excel 表格
-  - login: 登录
-  - register: 注册
-  - reopenPlan: 重新开启报名
-  - subscribePlan: 订阅群约通知
-  - updateUser: 更新用户信息
+  - archivePlan - 归档群约
+  - closePlan - 结束报名
+  - createPlan - 新建群约
+  - editParticipation - 编辑报名
+  - editPlan - 编辑群约
+  - editPlanLock - 编辑锁定选项
+  - getPlanCode - 获取群约小程序码
+  - getPlanXLSX - 获取群约导出 Excel 表格
+  - login - 登录
+  - register - 注册
+  - reopenPlan - 重新开启报名
+  - subscribePlan - 订阅群约通知
+  - updateUser - 更新用户信息
 
 - **/miniprogram** 小程序
 
   - */components* 组件
-    - avatar: 头像
-    - btn: 按钮
-    - calendar-picker: 日期选择器
-    - container: 容器
-    - drag-list: 拖拽列表
-    - footer: 页脚
-    - half-modal: 半屏模态弹框
-    - navigation-bar: 导航栏
-    - plan-list: 群约列表 - 支持滑动删除
-    - section: 段落
+    - avatar - 头像
+    - btn - 按钮
+    - calendar-picker - 日期选择器
+    - container - 容器
+    - drag-list - 拖拽列表
+    - footer - 页脚
+    - half-modal - 半屏模态弹框
+    - navigation-bar - 导航栏
+    - plan-list - 群约列表 (支持滑动删除)
+    - section - 段落
 
-  - */icons*: 图标
+  - */icons* 图标
 
-  - */images*: 图片/插画
+  - */images* 图片/插画
 
-  - */pages*: 页面
-    - createPlan: 创建群约
-    - editParticipation: 编辑报名
-    - editPlan: 编辑群约
-    - index: 首页
-    - plan: 群约详情
-    - qrShare: 群约分享码
-    - setting: 设置
-    - setting/about: 关于
-    - setting/deletedPlan: 已删除的群约
-    - setting/segmentSetting: 选项模板管理
-    - setting/segmentSetting/publicSetting: 公共模板库
+  - */pages* 页面
+    - createPlan - 创建群约
+    - editParticipation - 编辑报名
+    - editPlan - 编辑群约
+    - index - 首页
+    - plan - 群约详情
+    - qrShare - 群约分享码
+    - setting - 设置
+    - setting/about - 关于
+    - setting/deletedPlan - 已删除的群约
+    - setting/segmentSetting - 选项模板管理
+    - setting/segmentSetting/publicSetting - 公共模板库
 
-  - */style*: 公共样式
+  - */style* 公共样式
 
-  - */util*: 工具函数
-    - date: 日期处理
-    - option: 选项处理
-    - tools.wxs: wxs 工具模块
+  - */util* 工具函数
+    - date - 日期处理
+    - option - 选项处理
+    - tools.wxs - wxs 工具模块
+
+## 数据库集合设计
+
+- **users** - 用户
+  - _id: string
+  - _openid: string - OPENID
+  - _registeredAt: date - 注册时间
+  - info: object - 用户信息
+  - savedPlans: array - 保存的群约
+  - deletedPlans: array - 删除的群约
+  - segmentSettings: array - 时间选项模板
+
+- **plans** - 群约
+  - _id: string
+  - _createAt: date - 创建时间
+  - _creator: string - 发起人
+  - _updatedAt: date - 更新时间
+  - code: string - 分享码ID
+  - option: object - 选项配置
+  - participation: array - 参与者ID及报名信息
+  - remark: string - 备注
+  - subscribers: array - 订阅者ID
+  - title: string - 标题
+
+- **segment_settings** - 公共时间选项模板
+  - _id: string
+  - draft: boolean - 是否为草稿
+  - name: string - 标题
+  - segments: array - 时间选项
 
 ## 部署
 
